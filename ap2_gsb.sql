@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mar. 14 jan. 2025 à 12:31
+-- Généré le : mar. 14 jan. 2025 à 17:09
 -- Version du serveur : 11.4.2-MariaDB
 -- Version de PHP : 8.2.4
 
@@ -161,7 +161,6 @@ CREATE TABLE `aspnetusers` (
   `Nom_m` longtext NOT NULL,
   `Prenom_m` longtext NOT NULL,
   `Date_naissance_m` datetime(6) NOT NULL,
-  `SpecialiteId` int(11) NOT NULL,
   `UserName` varchar(256) DEFAULT NULL,
   `NormalizedUserName` varchar(256) DEFAULT NULL,
   `Email` varchar(256) DEFAULT NULL,
@@ -265,25 +264,6 @@ INSERT INTO `patients` (`PatientId`, `Nom_p`, `Prenom_p`, `Sexe_p`, `Num_secu`) 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `specialites`
---
-
-CREATE TABLE `specialites` (
-  `SpecialiteId` int(11) NOT NULL,
-  `Libelle_spe` longtext NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Déchargement des données de la table `specialites`
---
-
-INSERT INTO `specialites` (`SpecialiteId`, `Libelle_spe`) VALUES
-(1, 'Cardiologue'),
-(2, 'Dentiste');
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `__efmigrationshistory`
 --
 
@@ -297,8 +277,7 @@ CREATE TABLE `__efmigrationshistory` (
 --
 
 INSERT INTO `__efmigrationshistory` (`MigrationId`, `ProductVersion`) VALUES
-('20241217144533_sec', '8.0.8'),
-('20250114104026_first', '8.0.8');
+('20250114155957_first', '8.0.8');
 
 --
 -- Index pour les tables déchargées
@@ -385,8 +364,7 @@ ALTER TABLE `aspnetuserroles`
 ALTER TABLE `aspnetusers`
   ADD PRIMARY KEY (`Id`),
   ADD UNIQUE KEY `UserNameIndex` (`NormalizedUserName`),
-  ADD KEY `EmailIndex` (`NormalizedEmail`),
-  ADD KEY `IX_AspNetUsers_SpecialiteId` (`SpecialiteId`);
+  ADD KEY `EmailIndex` (`NormalizedEmail`);
 
 --
 -- Index pour la table `aspnetusertokens`
@@ -426,12 +404,6 @@ ALTER TABLE `ordonnances`
 --
 ALTER TABLE `patients`
   ADD PRIMARY KEY (`PatientId`);
-
---
--- Index pour la table `specialites`
---
-ALTER TABLE `specialites`
-  ADD PRIMARY KEY (`SpecialiteId`);
 
 --
 -- Index pour la table `__efmigrationshistory`
@@ -484,12 +456,6 @@ ALTER TABLE `ordonnances`
 --
 ALTER TABLE `patients`
   MODIFY `PatientId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT pour la table `specialites`
---
-ALTER TABLE `specialites`
-  MODIFY `SpecialiteId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Contraintes pour les tables déchargées
@@ -547,12 +513,6 @@ ALTER TABLE `aspnetuserlogins`
 ALTER TABLE `aspnetuserroles`
   ADD CONSTRAINT `FK_AspNetUserRoles_AspNetRoles_RoleId` FOREIGN KEY (`RoleId`) REFERENCES `aspnetroles` (`Id`) ON DELETE CASCADE,
   ADD CONSTRAINT `FK_AspNetUserRoles_AspNetUsers_UserId` FOREIGN KEY (`UserId`) REFERENCES `aspnetusers` (`Id`) ON DELETE CASCADE;
-
---
--- Contraintes pour la table `aspnetusers`
---
-ALTER TABLE `aspnetusers`
-  ADD CONSTRAINT `FK_AspNetUsers_Specialites_SpecialiteId` FOREIGN KEY (`SpecialiteId`) REFERENCES `specialites` (`SpecialiteId`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `aspnetusertokens`
